@@ -23,6 +23,12 @@
       "styles.css",
       "imagens",
       "package.json"
+    ],"publish": [
+      {
+        "provider": "github",
+        "owner": "VictorBueno011",
+        "repo": "Or-amentoElectron"
+      }
     ],
     "win": {
       "target": "nsis"
