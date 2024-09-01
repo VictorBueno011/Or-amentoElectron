@@ -1,15 +1,44 @@
 {
-  "name": "or-amentoelectron",
+  "name": "meu-app-electron",
   "version": "1.0.0",
-  "description": "",
+  "description": "Meu aplicativo Electron",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac",
+    "build:linux": "electron-builder --linux"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "build": {
+    "appId": "com.meuapp.electron",
+    "productName": "MeuAppElectron",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "index.html",
+      "preload.js",
+      "styles.css",
+      "imagens",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  },
+  "devDependencies": {
+    "electron": "^32.0.1",
+    "electron-builder": "^24.13.3"
+  },
   "dependencies": {
-    "electron": "^32.0.1"
+    "electron-updater": "^6.2.1"
   }
 }

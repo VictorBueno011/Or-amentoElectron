@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
-const path = require('path');
+const { autoUpdater } = require('electron-updater');
 const fs = require('fs');
+const path = require('path');
 
 function getAppVersion() {
     const packageJsonPath = path.join(__dirname, 'package.json');
@@ -13,16 +14,15 @@ function createWindow() {
         width: 800,
         height: 600,
         webPreferences: {
-            preload: path.join(__dirname, 'preload.js'),  // Inclua o arquivo preload
-            contextIsolation: true,  // Ativar contextIsolation
-            enableRemoteModule: false,  // Desativar o módulo remoto
-            nodeIntegration: false,  // Desativar nodeIntegration por segurança
-            sandbox: true  // Melhorar a segurança
+            nodeIntegration: true,
+            contextIsolation: false
         }
     });
 
     win.loadFile('index.html');
-    console.log(`App Version: ${getAppVersion()}`);
+
+    // Verificar atualizações
+    autoUpdater.checkForUpdatesAndNotify();
 }
 
 app.whenReady().then(() => {
@@ -37,7 +37,17 @@ app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit();
 });
 
-// No processo principal, você usa ipcMain para lidar com a comunicação.
+// Adicionar manipulador ipcMain
 ipcMain.handle('get-app-version', () => {
     return getAppVersion();
+});
+
+// Eventos do auto-updater
+autoUpdater.on('update-available', () => {
+    console.log('Update available.');
+});
+
+autoUpdater.on('update-downloaded', () => {
+    console.log('Update downloaded; will install now');
+    autoUpdater.quitAndInstall();
 });
