@@ -49,7 +49,22 @@
 
             <button id="download" onclick="print()">Baixar</button>
         </div>
+
+        <!-- Adicionando a seção do Electron -->
+        <div class="electron-info">
+            <h2>Bem-vindo ao meu aplicativo Electron!</h2>
+            <p>Versão do aplicativo: <span id="app-version"></span></p>
+        </div>
     </main>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            // Função para obter a versão do aplicativo no Electron
+            window.ipcRenderer.invoke('get-app-version').then((version) => {
+                document.getElementById('app-version').innerText = version;
+            });
+        });
+    </script>
 </body>
 
 </html>
